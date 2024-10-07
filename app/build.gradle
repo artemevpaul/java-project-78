@@ -20,8 +20,9 @@ repositories {
 
 dependencies {
     implementation 'org.junit.jupiter:junit-jupiter:5.10.3'
-    testImplementation platform('org.junit:junit-bom:5.10.3')
+    testImplementation platform('org.junit:junit-bom:5.11.2')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation("org.assertj:assertj-core:3.26.3")
     implementation 'info.picocli:picocli:4.7.6'
     annotationProcessor 'info.picocli:picocli-codegen:4.7.6'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.0'
@@ -43,7 +44,7 @@ application {
     mainClass = 'hexlet.code.App'
 }
 compileJava {
-    options.release = 23
+    options.release = 21
     options.compilerArgs += ["-Aproject=${project.group}/${project.name}"]
 }
 tasks.jacocoTestReport { reports { xml.required.set(true) } }
