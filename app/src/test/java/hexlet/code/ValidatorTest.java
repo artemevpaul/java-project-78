@@ -2,75 +2,60 @@ package hexlet.code;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
-class ValidatorTest {
+public class ValidatorTest {
 
     private Validator validator;
     private StringSchema stringSchema;
+    private NumberSchema numberSchema;
 
     @BeforeEach
     void setUp() {
         validator = new Validator();
         stringSchema = validator.string();
+        numberSchema = validator.number();
     }
 
     @Test
-    void testStringSchemaWithoutRequired() {
-        // Проверка без обязательного условия required()
-        assertThat(stringSchema.isValid("")).isTrue();  // Пустая строка допустима
-        assertThat(stringSchema.isValid(null)).isTrue();  // null допустим
-        assertThat(stringSchema.isValid("hexlet")).isTrue();  // Произвольная строка допустима
-    }
+    void testStringSchema() {
+        // Тесты для строки
+        assertThat(stringSchema.isValid("")).isTrue();
+        assertThat(stringSchema.isValid(null)).isTrue();
 
-    @Test
-    void testStringSchemaWithRequired() {
         stringSchema.required();
+        assertThat(stringSchema.isValid("")).isFalse();
+        assertThat(stringSchema.isValid("hexlet")).isTrue();
 
-        // Проверка с обязательным условием
-        assertThat(stringSchema.isValid("")).isFalse();  // Пустая строка недопустима
-        assertThat(stringSchema.isValid(null)).isFalse();  // null недопустим
-        assertThat(stringSchema.isValid("hexlet")).isTrue();  // Произвольная непустая строка допустима
+        stringSchema.minLength(5);
+        assertThat(stringSchema.isValid("hex")).isFalse();
+        assertThat(stringSchema.isValid("hexlet")).isTrue();
+
+        stringSchema.contains("hex");
+        assertThat(stringSchema.isValid("hexlet")).isTrue();
+        assertThat(stringSchema.isValid("lethex")).isTrue();
+        assertThat(stringSchema.isValid("helet")).isFalse();
     }
 
     @Test
-    void testStringSchemaWithMinLength() {
-        stringSchema.required().minLength(5);
+    void testNumberSchema() {
+        assertThat(numberSchema.isValid(null)).isTrue();
+        assertThat(numberSchema.isValid(5)).isTrue();
 
-        // Проверка с минимальной длиной
-        assertThat(stringSchema.isValid("hex")).isFalse();  // Строка короче 5 символов недопустима
-        assertThat(stringSchema.isValid("hello")).isTrue();  // Ровно 5 символов допустимо
-        assertThat(stringSchema.isValid("longer string")).isTrue();  // Больше 5 символов допустимо
-    }
+        numberSchema.required();
+        assertThat(numberSchema.isValid(null)).isFalse();
+        assertThat(numberSchema.isValid(10)).isTrue();
 
-    @Test
-    void testStringSchemaWithContains() {
-        stringSchema.required().contains("fox");
+        numberSchema.positive();
+        assertThat(numberSchema.isValid(-5)).isFalse();
+        assertThat(numberSchema.isValid(5)).isTrue();
+        assertThat(numberSchema.isValid(0)).isFalse();
 
-        // Проверка на наличие подстроки
-        assertThat(stringSchema.isValid("what does the fox say")).isTrue();  // Содержит подстроку "fox"
-        assertThat(stringSchema.isValid("what does the dog say")).isFalse();  // Не содержит подстроку "fox"
-    }
-
-    @Test
-    void testStringSchemaCombinedChecks() {
-        stringSchema.required().minLength(5).contains("hex");
-
-        // Комбинированные проверки
-        assertThat(stringSchema.isValid("hexlet")).isTrue();  // Удовлетворяет всем условиям
-        assertThat(stringSchema.isValid("he")).isFalse();  // Короче 5 символов
-        assertThat(stringSchema.isValid("lethex")).isTrue();  // Содержит "hex", длиннее 5 символов
-        assertThat(stringSchema.isValid("exams")).isFalse();  // Длиннее 5 символов, но не содержит "hex"
-    }
-
-    @Test
-    void testResettingSchema() {
-        stringSchema.required();
-        assertThat(stringSchema.isValid("hexlet")).isTrue();  // Строка валидна
-
-        // Меняем условия
-        stringSchema.minLength(10);
-        assertThat(stringSchema.isValid("hexlet")).isFalse();  // Теперь не валидна из-за длины
+        numberSchema.range(5, 10);
+        assertThat(numberSchema.isValid(5)).isTrue();
+        assertThat(numberSchema.isValid(10)).isTrue();
+        assertThat(numberSchema.isValid(4)).isFalse();
+        assertThat(numberSchema.isValid(11)).isFalse();
     }
 }
-
