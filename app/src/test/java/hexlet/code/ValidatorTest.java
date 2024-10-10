@@ -4,8 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.Map;
 
-import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ValidatorTest {
@@ -25,7 +25,6 @@ public class ValidatorTest {
 
     @Test
     void testStringSchema() {
-        // Тесты для строки
         assertThat(stringSchema.isValid("")).isTrue();
         assertThat(stringSchema.isValid(null)).isTrue();
 
@@ -74,11 +73,34 @@ public class ValidatorTest {
         assertThat(mapSchema.isValid(new HashMap<>())).isTrue();
 
         mapSchema.sizeOf(2);
-        var data = new HashMap<String,String>();
-        data.put("key1","value1");
+        var data = new HashMap<String, String>();
+        data.put("key1", "value1");
 
         assertThat(mapSchema.isValid(data)).isFalse();
-        data.put("key2","value2");
+        data.put("key2", "value2");
         assertThat(mapSchema.isValid(data)).isTrue();
+    }
+    @Test
+    public void testShape() {
+        Map<String, BaseSchema> schemas = new HashMap<>();
+        schemas.put("name", validator.string().required());
+        schemas.put("age", validator.number().positive());
+
+        mapSchema.shape(schemas);
+
+        Map<String, Object> person1 = new HashMap<>();
+        person1.put("name", "John");
+        person1.put("age", 25);
+        assertThat(mapSchema.isValid(person1)).isTrue();
+
+        Map<String, Object> person2 = new HashMap<>();
+        person2.put("name", "John");
+        person2.put("age", -10);
+        assertThat(mapSchema.isValid(person2)).isFalse();
+
+        Map<String, Object> person3 = new HashMap<>();
+        person3.put("name", "Alice");
+        person3.put("age", 30);
+        assertThat(mapSchema.isValid(person3)).isTrue();
     }
 }
