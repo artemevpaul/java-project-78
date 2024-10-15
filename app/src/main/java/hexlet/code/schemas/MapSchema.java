@@ -2,7 +2,7 @@ package hexlet.code.schemas;
 
 import java.util.Map;
 
-public class MapSchema extends BaseSchema<Map> {
+public class MapSchema extends BaseSchema<Map<String, Object>> {
 
     public MapSchema required() {
         addCheck(value -> value != null);

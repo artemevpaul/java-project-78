@@ -78,7 +78,7 @@ public class ValidatorTest {
         assertThat(mapSchema.isValid(new HashMap<>())).isTrue();
 
         mapSchema.sizeof(2);
-        var data = new HashMap<String, String>();
+        var data = new HashMap<String, Object>();
         data.put("key1", "value1");
 
         assertThat(mapSchema.isValid(data)).isFalse();
