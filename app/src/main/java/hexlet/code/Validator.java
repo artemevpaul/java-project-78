@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class Validator {
+public final class Validator {
 
     public static StringSchema string() {
         return new StringSchema();
