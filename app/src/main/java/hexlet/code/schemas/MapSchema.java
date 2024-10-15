@@ -2,7 +2,7 @@ package hexlet.code.schemas;
 
 import java.util.Map;
 
-public class MapSchema extends BaseSchema {
+public class MapSchema extends BaseSchema<Map> {
 
     public MapSchema required() {
         addCheck(value -> value != null);
@@ -17,16 +17,11 @@ public class MapSchema extends BaseSchema {
 
     public MapSchema shape(Map<String, BaseSchema> schemas) {
         addCheck(map -> {
-            if (!(map instanceof Map)) {
-                return false;
-            }
-            Map<?, ?> mapValue = (Map<?, ?>) map;
-
             for (Map.Entry<String, BaseSchema> entry : schemas.entrySet()) {
                 String key = entry.getKey();
                 BaseSchema schema = entry.getValue();
 
-                if (!mapValue.containsKey(key) || !schema.isValid(mapValue.get(key))) {
+                if (!map.containsKey(key) || !schema.isValid(map.get(key))) {
                     return false;
                 }
             }
