@@ -87,7 +87,7 @@ public class ValidatorTest {
     }
     @Test
     public void testShape() {
-        Map<String, BaseSchema<?>> schemas = new HashMap<>();
+        Map<String, BaseSchema> schemas = new HashMap<>();
         schemas.put("name", stringSchema.required());
         schemas.put("age", numberSchema.positive());
 
