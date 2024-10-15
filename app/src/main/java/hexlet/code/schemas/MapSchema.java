@@ -10,7 +10,7 @@ public class MapSchema extends BaseSchema<Map> {
         return this;
     }
 
-    public MapSchema sizeOf(Integer n) {
+    public MapSchema sizeof(Integer n) {
         addCheck(value -> value.size() == n);
         return this;
     }
