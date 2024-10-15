@@ -4,7 +4,7 @@ package hexlet.code.schemas;
 public class StringSchema extends BaseSchema<String> {
 
     public StringSchema required() {
-        addCheck(value -> !"".equals(value) && value != null);
+        addCheck(value -> value != null && !value.isEmpty());
         setRequired();
         return this;
     }
@@ -15,7 +15,7 @@ public class StringSchema extends BaseSchema<String> {
     }
 
     public StringSchema contains(String substring) {
-        addCheck(value -> value != null && value.contains(substring));
+        addCheck(value -> value.contains(substring));
         return this;
     }
 }
