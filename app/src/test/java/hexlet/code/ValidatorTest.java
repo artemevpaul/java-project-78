@@ -13,7 +13,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ValidatorTest {
+public final class ValidatorTest {
 
     private Validator validator;
     private StringSchema stringSchema;
