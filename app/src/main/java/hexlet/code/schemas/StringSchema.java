@@ -10,12 +10,12 @@ public class StringSchema extends BaseSchema<String> {
     }
 
     public StringSchema minLength(int length) {
-        addCheck(value -> value != null && value.length() >= length);
+        addCheck(value -> value != null && value.toString().length() >= length);
         return this;
     }
 
     public StringSchema contains(String substring) {
-        addCheck(value -> value != null && value.contains(substring));
+        addCheck(value -> value != null && value.toString().contains(substring));
         return this;
     }
 }
