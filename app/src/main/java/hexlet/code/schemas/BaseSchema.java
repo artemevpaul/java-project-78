@@ -1,18 +1,20 @@
 package hexlet.code.schemas;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
 public class BaseSchema<T> {
-    private final List<Predicate<T>> checks = new ArrayList<>();
+    private final Map<String, Predicate<T>> checks = new HashMap<>();
     private boolean isRequired;
 
-    public void addCheck(Predicate<T> check) {
-        checks.add(check);
+    public void addCheck(String name, Predicate<T> check) {
+        checks.put(name, check);
     }
     public boolean isValid(T value) {
-        for (Predicate<T> check : checks) {
+        for (var check : checks.values()) {
             if (!check.test(value)) {
                 return false;
             }

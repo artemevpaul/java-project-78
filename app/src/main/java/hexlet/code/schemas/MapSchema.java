@@ -5,18 +5,18 @@ import java.util.Map;
 public class MapSchema extends BaseSchema<Map> {
 
     public MapSchema required() {
-        addCheck(value -> value != null);
+        addCheck("REQUIRED",(value -> value != null));
         setRequired();
         return this;
     }
 
     public MapSchema sizeof(Integer n) {
-        addCheck(map -> ((Map<?, ?>) map).size() == n);
+        addCheck("SIZE_OF", (map -> ((Map<?, ?>) map).size() == n));
         return this;
     }
 
     public <T> MapSchema shape(Map<String, BaseSchema<T>> schemas) {
-        addCheck(map -> {
+        addCheck("SHAPE", (map -> {
             for (Map.Entry<String, BaseSchema<T>> entry : schemas.entrySet()) {
                 String key = entry.getKey();
                 BaseSchema schema = entry.getValue();
@@ -26,7 +26,7 @@ public class MapSchema extends BaseSchema<Map> {
                 }
             }
             return true;
-        });
+        }));
         return this;
     }
 }
