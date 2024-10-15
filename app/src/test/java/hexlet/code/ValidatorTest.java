@@ -21,7 +21,7 @@ public class ValidatorTest {
     private MapSchema mapSchema;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         validator = new Validator();
         stringSchema = validator.string();
         numberSchema = validator.number();

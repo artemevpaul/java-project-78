@@ -8,11 +8,11 @@ public class BaseSchema<T> {
     private final Map<String, Predicate<T>> checks = new HashMap<>();
     private boolean isRequired;
 
-    public void addCheck(String name, Predicate<T> check) {
+    public final void addCheck(String name, Predicate<T> check) {
         checks.put(name, check);
     }
 
-    public boolean isValid(T value) {
+    public final boolean isValid(T value) {
         for (var check : checks.values()) {
             if (!check.test(value)) {
                 return false;
@@ -21,7 +21,7 @@ public class BaseSchema<T> {
         return true;
     }
 
-    public void setRequired() {
+    public final void setRequired() {
         isRequired = true;
     }
 
