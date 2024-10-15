@@ -87,25 +87,25 @@ public class ValidatorTest {
     }
     @Test
     public void testShape() {
-        Map<String, BaseSchema> schemas = new HashMap<>();
-        schemas.put("name", stringSchema.required());
-        schemas.put("age", numberSchema.positive());
+        Map<String, BaseSchema<String>> schemas = new HashMap<>();
+        schemas.put("name", validator.string().required());
+        schemas.put("lastName", validator.string().minLength(5));
 
         mapSchema.shape(schemas);
 
         Map<String, Object> person1 = new HashMap<>();
         person1.put("name", "John");
-        person1.put("age", 25);
+        person1.put("lastName", "Andrews");
         assertThat(mapSchema.isValid(person1)).isTrue();
 
         Map<String, Object> person2 = new HashMap<>();
         person2.put("name", "John");
-        person2.put("age", -10);
+        person2.put("lastName", "A");
         assertThat(mapSchema.isValid(person2)).isFalse();
 
         Map<String, Object> person3 = new HashMap<>();
         person3.put("name", "Alice");
-        person3.put("age", 30);
+        person3.put("lastName", "Andrew");
         assertThat(mapSchema.isValid(person3)).isTrue();
     }
 }

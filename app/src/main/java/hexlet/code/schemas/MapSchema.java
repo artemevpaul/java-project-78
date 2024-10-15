@@ -15,9 +15,9 @@ public class MapSchema extends BaseSchema<Map> {
         return this;
     }
 
-    public MapSchema shape(Map<String, BaseSchema> schemas) {
+    public <T> MapSchema shape(Map<String, BaseSchema<T>> schemas) {
         addCheck(map -> {
-            for (Map.Entry<String, BaseSchema> entry : schemas.entrySet()) {
+            for (Map.Entry<String, BaseSchema<T>> entry : schemas.entrySet()) {
                 String key = entry.getKey();
                 BaseSchema schema = entry.getValue();
 
