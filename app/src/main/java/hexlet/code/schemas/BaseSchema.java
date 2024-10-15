@@ -1,8 +1,6 @@
 package hexlet.code.schemas;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -13,6 +11,7 @@ public class BaseSchema<T> {
     public void addCheck(String name, Predicate<T> check) {
         checks.put(name, check);
     }
+
     public boolean isValid(T value) {
         for (var check : checks.values()) {
             if (!check.test(value)) {
@@ -21,6 +20,7 @@ public class BaseSchema<T> {
         }
         return true;
     }
+
     public void setRequired() {
         isRequired = true;
     }
