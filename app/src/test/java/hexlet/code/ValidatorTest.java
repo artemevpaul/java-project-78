@@ -34,6 +34,7 @@ public class ValidatorTest {
         assertThat(stringSchema.isValid(null)).isTrue();
 
         stringSchema.required();
+        assertThat(stringSchema.isValid(null)).isFalse();
         assertThat(stringSchema.isValid("")).isFalse();
         assertThat(stringSchema.isValid("hexlet")).isTrue();
 
