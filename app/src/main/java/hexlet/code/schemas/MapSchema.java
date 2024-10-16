@@ -21,7 +21,7 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
                         .allMatch(entry -> {
                             String key = entry.getKey();
                             BaseSchema schema = entry.getValue();
-                            return schema.isValid(map.get(key))
+                            return schema.isValid(map.get(key));
                         })
         ));
         return this;
