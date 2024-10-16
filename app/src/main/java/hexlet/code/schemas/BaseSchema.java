@@ -13,6 +13,12 @@ public class BaseSchema<T> {
     }
 
     public final boolean isValid(T value) {
+        if (!isRequired && value == null) {
+            return true;
+        }
+        if (isRequired && value == null) {
+            return false;
+        }
         for (var check : checks.values()) {
             if (!check.test(value)) {
                 return false;
