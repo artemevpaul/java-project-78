@@ -5,6 +5,7 @@ build/
 !**/src/test/**/build/
 
 ### IntelliJ IDEA ###
+!**/src/main/**/.idea/
 idea/
 .idea/modules.xml
 .idea/jarRepositories.xml
