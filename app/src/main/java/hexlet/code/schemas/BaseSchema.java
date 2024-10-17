@@ -13,17 +13,25 @@ public class BaseSchema<T> {
     }
 
     public final boolean isValid(T value) {
-        if (!isRequired && value == null) {
-            return true;
+        if (isRequired) {
+            Predicate<T> requiredCheck = checks.get("REQUIRED");
+            if (!requiredCheck.test(value)) {
+                return false;
+            }
         }
-        if (isRequired && value == null) {
-            return false;
-        }
-        for (var check : checks.values()) {
+        for (var entry : checks.entrySet()) {
+            String checkName = entry.getKey();
+            Predicate<T> check = entry.getValue();
+
+            if ("REQUIRED".equals(checkName)) {
+                continue;
+            }
+
             if (!check.test(value)) {
                 return false;
             }
         }
+
         return true;
     }
 

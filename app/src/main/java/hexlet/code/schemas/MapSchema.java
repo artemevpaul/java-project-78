@@ -4,8 +4,11 @@ import java.util.Map;
 
 public final class MapSchema extends BaseSchema<Map<?, ?>> {
 
+    public MapSchema() {
+        addCheck("REQUIRED", (value -> value != null));
+    }
+
     public MapSchema required() {
-        addCheck("REQUIRED", (value -> value != null || value.isEmpty()));
         setRequired();
         return this;
     }
