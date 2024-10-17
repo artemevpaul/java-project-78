@@ -13,12 +13,23 @@ public class BaseSchema<T> {
     }
 
     public final boolean isValid(T value) {
+        // Если isRequired == false и value == null, сразу возвращаем true
+        if (!isRequired && value == null) {
+            return true;
+        }
+
+        // Если isRequired == true, проверяем наличие REQUIRED
         if (isRequired) {
             Predicate<T> requiredCheck = checks.get("REQUIRED");
-            if (!requiredCheck.test(value)) {
+            if (requiredCheck != null && !requiredCheck.test(value)) {
                 return false;
             }
         }
+
+        if (value == null) {
+            return true;
+        }
+
         for (var entry : checks.entrySet()) {
             String checkName = entry.getKey();
             Predicate<T> check = entry.getValue();
@@ -34,6 +45,7 @@ public class BaseSchema<T> {
 
         return true;
     }
+
 
     public final void setRequired() {
         isRequired = true;
