@@ -17,7 +17,7 @@ public class BaseSchema<T> {
         if (!isRequired && !checkRequired.test(value)) {
             return true;
         }
-        if (isRequired && checkRequired != null && !checkRequired.test(value)) {
+        if (isRequired && !checkRequired.test(value)) {
             return false;
         }
         return checks.values().stream()
