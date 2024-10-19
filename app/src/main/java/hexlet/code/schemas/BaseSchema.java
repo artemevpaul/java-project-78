@@ -16,11 +16,12 @@ public class BaseSchema<T> {
         Predicate<T> checkRequired = checks.get("REQUIRED");
         if (!isRequired && !checkRequired.test(value)) {
             return true;
-        } else {
-
-            return checks.values().stream()
-                    .allMatch(check -> check.test(value));
         }
+        if (isRequired && checkRequired != null && !checkRequired.test(value)) {
+            return false;
+        }
+        return checks.values().stream()
+                .allMatch(check -> check.test(value));
     }
 
 
