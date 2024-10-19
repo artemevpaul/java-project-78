@@ -17,11 +17,15 @@ public class BaseSchema<T> {
         if (!isRequired && !checkRequired.test(value)) {
             return true;
         }
-        if (isRequired && !checkRequired.test(value)) {
-            return false;
+//        if (isRequired && !checkRequired.test(value)) {
+//            return false;
+//        }
+        for (Predicate<T> check : checks.values()) {
+            if (!check.test(value)) {
+                return false;
+            }
         }
-        return checks.values().stream()
-                .allMatch(check -> check.test(value));
+        return true;
     }
 
 
