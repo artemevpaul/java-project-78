@@ -1,6 +1,5 @@
 package hexlet.code.schemas;
 
-//import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -18,13 +17,10 @@ public class BaseSchema<T> {
         if (!isRequired && !checkRequired.test(value)) {
             return true;
         }
-//        if (isRequired && !checkRequired.test(value)) {
-//            return false;
-//        }
+
         return checks.values().stream()
                 .allMatch(check -> check.test(value));
     }
-
 
     public final void setRequired() {
         isRequired = true;

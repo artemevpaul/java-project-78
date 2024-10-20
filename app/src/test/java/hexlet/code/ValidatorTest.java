@@ -23,9 +23,9 @@ public final class ValidatorTest {
     @BeforeEach
     public void setUp() {
         validator = new Validator();
-        stringSchema = validator.string();
-        numberSchema = validator.number();
-        mapSchema = validator.map();
+        stringSchema = Validator.string();
+        numberSchema = Validator.number();
+        mapSchema = Validator.map();
     }
 
     @Test
@@ -50,7 +50,7 @@ public final class ValidatorTest {
     @Test
     public void testStringValidator() {
         Validator v = new Validator();
-        StringSchema schema = v.string().required().minLength(10).minLength(4);
+        StringSchema schema = Validator.string().required().minLength(10).minLength(4);
         assertThat(schema.isValid("hexlet")).isTrue();
     }
 
@@ -95,8 +95,8 @@ public final class ValidatorTest {
     @Test
     public void testShape() {
         Map<String, BaseSchema<String>> schemas = new HashMap<>();
-        schemas.put("name", validator.string().required());
-        schemas.put("lastName", validator.string().minLength(5));
+        schemas.put("name", Validator.string().required());
+        schemas.put("lastName", Validator.string().minLength(5));
 
         mapSchema.shape(schemas);
 
