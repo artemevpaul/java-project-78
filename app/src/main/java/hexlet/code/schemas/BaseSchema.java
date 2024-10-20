@@ -1,11 +1,12 @@
 package hexlet.code.schemas;
 
-import java.util.HashMap;
+//import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
 public class BaseSchema<T> {
-    private final Map<String, Predicate<T>> checks = new HashMap<>();
+    private final Map<String, Predicate<T>> checks = new LinkedHashMap<>();
     private boolean isRequired;
 
     public final void addCheck(String name, Predicate<T> check) {
@@ -17,9 +18,9 @@ public class BaseSchema<T> {
         if (!isRequired && !checkRequired.test(value)) {
             return true;
         }
-        if (isRequired && !checkRequired.test(value)) {
-            return false;
-        }
+//        if (isRequired && !checkRequired.test(value)) {
+//            return false;
+//        }
         return checks.values().stream()
                 .allMatch(check -> check.test(value));
     }
